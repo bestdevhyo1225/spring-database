@@ -137,4 +137,23 @@ JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할
 - 성능과 사용의 편리함 측면에서 최근에는 `HikariCP` 를 주로 사용한다. 스프링 부트 2.0 부터는 기본 커넥션 풀로 `HikariCP` 를 제공한다. 성능, 사용의 편리함, 안전성 측면에서 이미 검증이
   되었기 때문에 커넥션 풀을 사용할 때는 고민할 것 없이 `HikariCP` 를 사용하면 된다. 실무에서도 레거시 프로젝트가 아닌 이상 대부분 `HikariCP` 를 사용한다.
 
-## DataSource 이해
+## :round_pushpin: DataSource 이해
+
+### DriverManager를 통해 커넥션 획득하다가 커넥션 풀로 변경시 문제
+
+![스크린샷 2022-04-16 오후 11 33 21](https://user-images.githubusercontent.com/23515771/163679073-5a373344-abaf-40ac-a138-93ae88b6d323.png)
+
+DriverManager를 사용하다가 HikariCP를 사용하게 되면, 애플리케이션 코드가 변경되는 상황이 발생하게 된다. 왜냐하면 의존관계가 `DriverManager` 에서 `HikariCP` 로 변경되기
+때문이다.
+
+### 커넥션 획득하는 방법을 추상화
+
+<img width="839" alt="스크린샷 2022-04-16 오후 11 35 45" src="https://user-images.githubusercontent.com/23515771/163679123-8f8bf71d-a6d5-4d45-9ee3-8f8204f9532a.png">
+
+자바에서는 이러한 문제를 해결하기 위해서 `java.sql.DataSource` 라는 인터페이스를 제공한다. `DataSource` 는 `커넥션을 획득하는 방법을 추상화한 인터페이스` 이다.
+
+```java
+public interface DataSource {
+    Connection getConnection() throws SQLException;
+}
+```
