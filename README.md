@@ -1,1 +1,41 @@
 # 스프링 DB - 1편
+
+## H2 데이터베이스 설정
+
+> 해당 프로젝트에서 어떤 버전의 H2 데이터베이스를 사용하는지 확인한다.
+
+<img width="296" alt="스크린샷 2022-04-16 오후 5 37 25" src="https://user-images.githubusercontent.com/23515771/163668391-4c8c194e-755c-4789-93e7-d5a8aaed2269.png">
+
+해당 프로젝트에서 사용하는 H2 데이터베이스가 `1.4.200` 버전임을 확인하고, https://www.h2database.com/html/main.html 에 접속해서 `All Downloads -> Archive Downloads` 로 들어간다.
+
+<img width="376" alt="스크린샷 2022-04-16 오후 5 39 17" src="https://user-images.githubusercontent.com/23515771/163668447-50cd2181-598d-48f4-b9d4-e10e490f41c2.png">
+
+`1.4.200` 버전의 `Platform-Independent Zip` 을 다운로드 하고, 압축을 해제한다.
+
+> H2 데이터베이스 실행하기
+
+`h2/bin` 으로 디렉토리를 이동하여, `chmod 755 h2.sh` 명령을 통해 실행 권한을 허용한다.
+
+<img width="486" alt="스크린샷 2022-04-16 오후 5 42 01" src="https://user-images.githubusercontent.com/23515771/163668509-f75c002c-836b-4be6-a2ec-807d0ca11aea.png">
+
+그리고 나서 `./h2.sh` 를 실행한다.
+
+<img width="355" alt="스크린샷 2022-04-16 오후 5 42 36" src="https://user-images.githubusercontent.com/23515771/163668530-784adca8-6f8b-4cf9-8268-fe0423085f22.png">
+
+> H2 데이터베이스 접속
+
+Host를 반드시 `localhost:8082` 로 변경해서 접속해야 한다.
+
+> H2 데이터베이스 연결하기
+
+최초 한번은 파일로 접근하는 방식으로 연결을 해야한다.
+
+<img width="464" alt="스크린샷 2022-04-16 오후 5 44 51" src="https://user-images.githubusercontent.com/23515771/163668590-fc822574-b484-4c3e-bc23-8b5cd57d6122.png">
+
+그리고 나서 `~` 경로에 `test.mv.db` 가 생성되었는지를 꼭 확인해야 한다. 
+
+<img width="482" alt="스크린샷 2022-04-16 오후 5 46 59" src="https://user-images.githubusercontent.com/23515771/163668624-e76d62de-635e-4de0-a8e7-818064346016.png">
+
+그리고 이후 부터는 `jdbc:h2:tcp://localhost/~/test` 로 접속하면 된다.
+
+<img width="474" alt="스크린샷 2022-04-16 오후 5 49 48" src="https://user-images.githubusercontent.com/23515771/163668682-7866b74b-e115-4e5f-b275-3011d1859008.png">
