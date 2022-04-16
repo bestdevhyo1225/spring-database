@@ -54,3 +54,28 @@ JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할
 <img width="1704" alt="image" src="https://user-images.githubusercontent.com/23515771/163669304-058ccd6a-d793-4b49-baec-46dfcc6e7f40.png">
 
 `애플리케이션 로직` 에서는 `JDBC 표준 인터페이스` 를 그대로 사용하면 되고, `드라이버` 구현체만 바꾸면 된다. (개인적인 생각으로 **`전략 패턴`** 을 기반으로 구현한 것 같다.)
+
+## JDBC를 편리하게 사용하는 다양한 기술들
+
+### SQL Mapper
+
+> 장점
+
+- SQL 응답 결과를 객체로 편리하게 변환해준다.
+- JDBC의 반복 코드를 제거해준다.
+
+> 단점
+
+- 개발자가 직접 SQL을 작성해야 한다.
+
+> 대표 기술
+
+- Spring JdbcTemplate, MyBatis
+
+### ORM
+
+객체를 관계형 데이터베이스 테이블과 매핑해주는 기술이다. 이 기술 덕분에 개발자는 SQL을 직접 작성하지 않아도 된다.
+
+> 대표 기술
+
+- JPA, Hibernate, Eclipse Link
