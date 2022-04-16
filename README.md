@@ -157,3 +157,8 @@ public interface DataSource {
     Connection getConnection() throws SQLException;
 }
 ```
+
+### ${pool name} connection adder 스레드
+
+커넥션 풀에 커넥션을 채우는 작업은 상대적으로 오래 걸리는 작업이다. 애플리케이션을 실행할 때, 커넥션 풀을 채울때 까지 마냥 대기하고 있다면 실행시간이 늦어진다. 따라서 별도의 스레드를 사용해서 커넥션 풀을
+생성하게 되며, 애플리케이션 실행 시간에 영향을 주지 않는다.
