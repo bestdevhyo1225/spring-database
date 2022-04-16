@@ -79,3 +79,13 @@ JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할
 > 대표 기술
 
 - JPA, Hibernate, Eclipse Link
+
+## JDBC DriverManager 연결 이해
+
+### DriverManager 커넥션 요청 흐름
+
+<img width="832" alt="스크린샷 2022-04-16 오후 7 50 18" src="https://user-images.githubusercontent.com/23515771/163672129-c9a5933a-3e2a-4679-8346-a957af8e9662.png">
+
+드라이버는 `jdbc:h2:tcp://localhost/~/test` 의 URL을 통해 내가 처리할 수 있는 연결인지 `H2, MySQL, Oracle` 를 차례대로 확인한다.
+
+- `jdbc:h2` 는 H2 데이터베이스에 접근하기 위한 규칙
