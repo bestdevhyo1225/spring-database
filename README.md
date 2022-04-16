@@ -1,6 +1,6 @@
 # 스프링 DB - 1편
 
-## H2 데이터베이스 설정
+## :round_pushpin: H2 데이터베이스 설정
 
 > 해당 프로젝트에서 어떤 버전의 H2 데이터베이스를 사용하는지 확인한다.
 
@@ -41,7 +41,7 @@ Host를 반드시 `localhost:8082` 로 변경해서 접속해야 한다.
 
 <img width="474" alt="스크린샷 2022-04-16 오후 5 49 48" src="https://user-images.githubusercontent.com/23515771/163668682-7866b74b-e115-4e5f-b275-3011d1859008.png">
 
-## JDBC 표준 인터페이스
+## :round_pushpin: JDBC 표준 인터페이스
 
 JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할 수 있도록 하는 자바 API다. 대표적으로 다음 3가지 기능을 표준 인터페이스로 정의해서 제공한다.
 
@@ -55,7 +55,7 @@ JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할
 
 `애플리케이션 로직` 에서는 `JDBC 표준 인터페이스` 를 그대로 사용하면 되고, `드라이버` 구현체만 바꾸면 된다. (개인적인 생각으로 **`전략 패턴`** 을 기반으로 구현한 것 같다.)
 
-## JDBC를 편리하게 사용하는 다양한 기술들
+## :round_pushpin: JDBC를 편리하게 사용하는 다양한 기술들
 
 ### SQL Mapper
 
@@ -80,7 +80,7 @@ JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할
 
 - JPA, Hibernate, Eclipse Link
 
-## JDBC DriverManager 연결 이해
+## :round_pushpin: JDBC DriverManager 연결 이해
 
 ### DriverManager 커넥션 요청 흐름
 
@@ -90,7 +90,7 @@ JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할
 
 - `jdbc:h2` 는 H2 데이터베이스에 접근하기 위한 규칙
 
-## 커넥션 풀 이해
+## :round_pushpin: 커넥션 풀 이해
 
 <img width="847" alt="스크린샷 2022-04-16 오후 11 10 56" src="https://user-images.githubusercontent.com/23515771/163678190-adb165cd-a731-43dd-9548-bde8b442c5e5.png">
 
@@ -137,3 +137,4 @@ JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할
 - 성능과 사용의 편리함 측면에서 최근에는 `HikariCP` 를 주로 사용한다. 스프링 부트 2.0 부터는 기본 커넥션 풀로 `HikariCP` 를 제공한다. 성능, 사용의 편리함, 안전성 측면에서 이미 검증이
   되었기 때문에 커넥션 풀을 사용할 때는 고민할 것 없이 `HikariCP` 를 사용하면 된다. 실무에서도 레거시 프로젝트가 아닌 이상 대부분 `HikariCP` 를 사용한다.
 
+## DataSource 이해
