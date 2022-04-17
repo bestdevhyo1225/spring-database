@@ -177,3 +177,31 @@ public interface DataSource {
 
 커넥션 풀에 커넥션을 채우는 작업은 상대적으로 오래 걸리는 작업이다. 애플리케이션을 실행할 때, 커넥션 풀을 채울때 까지 마냥 대기하고 있다면 실행시간이 늦어진다. 따라서 별도의 스레드를 사용해서 커넥션 풀을
 생성하게 되며, 애플리케이션 실행 시간에 영향을 주지 않는다.
+
+## 트랜잭션에서 자동 커밋, 수동 커밋
+
+### 자동 커밋
+
+```sql
+set autocommit true; -- 자동 커밋 모드 설정
+insert into member(member_id, money)
+values ('data1', 10000); -- 개별적으로 쿼리가 실행되고, 커밋 됨 (트랜잭션 1)
+insert into member(member_id, money)
+values ('data2', 10000); -- 개별적으로 쿼리가 실행되고, 커밋 됨 (트랜잭션 2)
+```
+
+자동 커밋으로 설정하면, `각각의 쿼리 실행 직후에 자동으로 커밋을 호출한다.` 커밋이나 롤백을 호출하지 않아도 되는 장점이 있지만, 자동으로 커밋이 되기 때문에 트랜잭션 기능을 제대로 사용할 수 없다.
+
+### 수동 커밋
+
+```sql
+set autocommit false; -- 수동 커밋 모드 설정
+insert into member(member_id, money)
+values ('data1', 10000); -- 트랜잭션 1에서 처리됨
+insert into member(member_id, money)
+values ('data2', 10000); -- 트랜잭션 1에서 처리됨
+commit; -- 수동 커밋 설정인 상태에서 작업이 완료되면, 꼭 commit, rollback 처리 할 것
+```
+
+보통 자동 커밋 모드가 기본으로 설정된 경우가 많기 때문에 **`수동 커밋 모드로 설정하는 것을 트랜잭션 시작`** 한다고 표현할 수 있다. 수동 커밋 모드를 설정하면, 작업 이후에 `commit`
+또는 `rollback` 을 꼭 호출해야 한다. 
