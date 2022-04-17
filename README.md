@@ -247,3 +247,42 @@ commit; -- 수동 커밋 설정인 상태에서 작업이 완료되면, 꼭 comm
 <img width="839" alt="스크린샷 2022-04-17 오후 1 24 28" src="https://user-images.githubusercontent.com/23515771/163700376-ef5b8971-d1d5-46fb-ae74-ff40f4c997bf.png">
 
 8. 세션2는 커밋을 수행하고 트랜잭션이 종료되었으므로 락을 반납한다.
+
+## :round_pushpin: 트랜잭션 사용 후, 커넥션 종료시 주의할 점
+
+### 커넥션 풀을 사용하지 않는 경우
+
+```java
+public class Service {
+
+    public void logic() throws SQLException {
+        Connection conn = dataSource.getConnection();
+
+        try {
+            conn.setAutoCommit(false); // 트랜잭션 시작
+            bizLogic(); // 비즈니스 로직 수행
+            conn.commit(); // 커밋
+        } catch (Exception e) {
+            conn.rollback(); // 롤백
+            throw new IllegalStateException(e);
+        } finally {
+            release(conn); // 커넥션 풀을 사용하는 경우, 커넥션 반납
+        }
+    }
+
+    private void release(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.setAutoCommit(true); // 커넥션 풀을 고려해서 자동 커밋으로 다시 되돌린다.
+                conn.close();
+            } catch (Exception e) {
+                log.error("error", e);
+            }
+        }
+    }
+}
+```
+
+커넥션 풀을 사용하지 않는 경우, 그냥 `conn.close()` 를 하면 그냥 `커넥션이 종료` 된다. 그런데 커넥션 풀을 사용하면서 트랜잭션을 사용하는 경우, `setAutoCommit(false)` 상태로
+변경하고(`트랜잭션 시작을 의미한다.`), 비즈니스 로직을 수행한 다음 commit, rollback 으로 작업을 마무리 한다. 이 때, 연결을 종료하지 않고 **`커넥션을 반납하게 된다.`** 그래서 `setAutoCommit`
+의 기본 값인 `true` 로 변경해줘야 다음 작업에서도 문제가 없게 되며, `true` 로 변경하는 것이 안전하다.
