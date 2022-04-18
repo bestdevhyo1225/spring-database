@@ -369,7 +369,8 @@ public interface PlatformTransactionManager extends TransactionManager {
 10. 트랜잭션을 종료하려면 동기화된 커넥션이 필요하다. 트랜잭션 동기화 매니저를 통해 동기화된 커넥션을 획득한다.
 11. 획득한 커넥션을 통해 데이터베이스에 트랜잭션을 커밋하거나 롤백한다.
 12. 전체 리소스를 정리한다.
-    - 트랜잭션 동기화 매니저를 정리한다. 쓰레드 로컬은 사용후 꼭 정리해야 한다. `con.setAutoCommit(true)` 로 되돌린다. 커넥션 풀을 고려해야 한다.
+    - 트랜잭션 동기화 매니저를 정리한다. `ThreadLocal은 사용후 꼭 정리해야 한다.` 
+    - `con.setAutoCommit(true)` 로 되돌린다. 커넥션 풀을 고려해야 한다.
     - `con.close()` 를 호출해셔 커넥션을 종료한다. 커넥션 풀을 사용하는 경우 `con.close()` 를 호출하면 커넥션 풀에 반환된다.
 
 ### 정리
