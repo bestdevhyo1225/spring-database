@@ -331,3 +331,17 @@ public interface PlatformTransactionManager extends TransactionManager {
 **`TransactionSynchronizationManager`** 추상 클래스
 
 - **`org.springframework.transaction.support.TransactionSynchronizationManager`**
+
+### DataSourceUtils.getConnection()
+
+- `DataSourceUtils.getConnection()` 는 다음과 같이 동작한다.
+    - 트랜잭션 동기화 매니저가 `관리하는 커넥션이 있으면`, `해당 커넥션`을 반환한다.
+    - 트랜잭션 동기화 매니저가 `관리하는 커넥션이 없는 경우`, `새로운 커넥션을 생성` 해서 반환한다.
+
+### DataSourceUtils.releaseConnection()
+
+- `close()` 에서 `DataSourceUtils.releaseConnection()` 를 사용하도록 변경된 부분을 특히 주의해야 한다. 커넥션을 `conn.close()` 를
+  사용해서 `직접 닫아버리면 커넥션이 유지되지 않는 문제` 가 발생한다. `이 커넥션은 이후 로직은 물론이고, 트랜잭션을 종료(커밋, 롤백)할 때 까지 살아있어야 한다.`
+- `DataSourceUtils.releaseConnection()` 을 사용하면 커넥션을 바로 닫는 것이 아니다.
+    - **`트랜잭션을 사용하기 위해 동기화된 커넥션은 커넥션을 닫지 않고, 그대로 유지해준다.`**
+    - 트랜잭션 동기화 매니저가 관리하는 커넥션이 없는 경우, 해당 커넥션을 닫는다.
