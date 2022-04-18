@@ -183,7 +183,8 @@ public interface DataSource {
 ### 자동 커밋
 
 ```sql
-set autocommit true; -- 자동 커밋 모드 설정
+set
+autocommit true; -- 자동 커밋 모드 설정
 insert into member(member_id, money)
 values ('data1', 10000); -- 개별적으로 쿼리가 실행되고, 커밋 됨 (트랜잭션 1)
 insert into member(member_id, money)
@@ -195,7 +196,8 @@ values ('data2', 10000); -- 개별적으로 쿼리가 실행되고, 커밋 됨 (
 ### 수동 커밋
 
 ```sql
-set autocommit false; -- 수동 커밋 모드 설정
+set
+autocommit false; -- 수동 커밋 모드 설정
 insert into member(member_id, money)
 values ('data1', 10000); -- 트랜잭션 1에서 처리됨
 insert into member(member_id, money)
@@ -284,5 +286,14 @@ public class Service {
 ```
 
 커넥션 풀을 사용하지 않는 경우, 그냥 `conn.close()` 를 하면 그냥 `커넥션이 종료` 된다. 그런데 커넥션 풀을 사용하면서 트랜잭션을 사용하는 경우, `setAutoCommit(false)` 상태로
-변경하고(`트랜잭션 시작을 의미한다.`), 비즈니스 로직을 수행한 다음 commit, rollback 으로 작업을 마무리 한다. 이 때, 연결을 종료하지 않고 **`커넥션을 반납하게 된다.`** 그래서 `setAutoCommit`
-의 기본 값인 `true` 로 변경해줘야 다음 작업에서도 문제가 없게 되며, `true` 로 변경하는 것이 안전하다.
+변경하고(`트랜잭션 시작을 의미한다.`), 비즈니스 로직을 수행한 다음 commit, rollback 으로 작업을 마무리 한다. 이 때, 연결을 종료하지 않고 **`커넥션을 반납하게 된다.`**
+그래서 `setAutoCommit` 의 기본 값인 `true` 로 변경해줘야 다음 작업에서도 문제가 없게 되며, `true` 로 변경하는 것이 안전하다.
+
+## Spring의 트랜잭션 추상화
+
+<img width="822" alt="스크린샷 2022-04-18 오후 9 56 15" src="https://user-images.githubusercontent.com/23515771/163811498-82397d78-5c62-4844-88c5-4feede91d0a9.png">
+
+우리는 스프링이 제공하는 트랜잭션 추상화 기술을 사용하면 된다. 심지어 데이터 접근 기술에 따른 트랜잭션 구현체도 대부분 만들어두어서 가져다 사용하기만 하면 된다. 스프링 트랜잭션 추상화의
+핵심은 **`PlatformTransactionManager`** 인터페이스이다.
+
+- **`org.springframework.transaction.PlatformTransactionManager`**
