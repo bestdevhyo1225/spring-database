@@ -289,7 +289,7 @@ public class Service {
 변경하고(`트랜잭션 시작을 의미한다.`), 비즈니스 로직을 수행한 다음 commit, rollback 으로 작업을 마무리 한다. 이 때, 연결을 종료하지 않고 **`커넥션을 반납하게 된다.`**
 그래서 `setAutoCommit` 의 기본 값인 `true` 로 변경해줘야 다음 작업에서도 문제가 없게 되며, `true` 로 변경하는 것이 안전하다.
 
-## Spring의 트랜잭션 추상화
+## :round_pushpin: Spring의 트랜잭션 추상화
 
 <img width="822" alt="스크린샷 2022-04-18 오후 9 56 15" src="https://user-images.githubusercontent.com/23515771/163811498-82397d78-5c62-4844-88c5-4feede91d0a9.png">
 
@@ -297,3 +297,37 @@ public class Service {
 핵심은 **`PlatformTransactionManager`** 인터페이스이다.
 
 - **`org.springframework.transaction.PlatformTransactionManager`**
+
+```java
+package org.springframework.transaction;
+
+public interface PlatformTransactionManager extends TransactionManager {
+    TransactionStatus getTransaction(@Nullable TransactionDefinition definition)
+            throws TransactionException;
+
+    void commit(TransactionStatus status) throws TransactionException;
+
+    void rollback(TransactionStatus status) throws TransactionException;
+}
+```
+
+## :round_pushpin: 트랜잭션 매니저와 트랜잭션 동기화 매니저
+
+<img width="822" alt="스크린샷 2022-04-18 오후 10 10 37" src="https://user-images.githubusercontent.com/23515771/163813036-4a516c7f-f46c-4968-b37a-cd1208a2e24c.png">
+
+- 스프링은 트랜잭션 동기화 매니저를 제공한다. 이것은 쓰레드 로컬(**`ThreadLocal`**)을 사용해서 커넥션을 동기화해준다. 트랜잭션 매니저는 내부에서 이 트랜잭션 동기화 매니저를 사용한다.
+- 트랜잭션 동기화 매니저는 쓰레드 로컬을 사용하기 때문에 멀티쓰레드 상황에 안전하게 커넥션을 동기화 할 수 있다. 따라서 커넥션이 필요하면 트랜잭션 동기화 매니저를 통해 커넥션을 획득하면 된다. 따라서 이전처럼
+  파라미터로 커넥션을 전달하지 않아도 된다.
+
+### 동작 방식
+
+1. 트랜잭션을 시작하려면 커넥션이 필요하다. 트랜잭션 매니저는 데이터소스를 통해 커넥션을 만들고 트랜잭션을 시작한다.
+2. 트랜잭션 매니저는 트랜잭션이 시작된 커넥션을 트랜잭션 동기화 매니저에 보관한다.
+3. 리포지토리는 트랜잭션 동기화 매니저에 보관된 커넥션을 꺼내서 사용한다. 따라서 파라미터로 커넥션을 전달하지 않아도 된다.
+4. 트랜잭션이 종료되면 트랜잭션 매니저는 트랜잭션 동기화 매니저에 보관된 커넥션을 통해 트랜잭션을 종료하고, 커넥션도 닫는다.
+
+### 트랜잭션 동기화 매니저
+
+**`TransactionSynchronizationManager`** 추상 클래스
+
+- **`org.springframework.transaction.support.TransactionSynchronizationManager`**
