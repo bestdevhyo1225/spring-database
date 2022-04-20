@@ -506,8 +506,8 @@ public interface PlatformTransactionManager extends TransactionManager {
 
 <img width="843" alt="스크린샷 2022-04-20 오후 9 29 41" src="https://user-images.githubusercontent.com/23515771/164230579-f5e1b9b6-4f02-4095-afb4-ebe74a840085.png">
 
-- `리포지토리` 는 DB에 접근해서 데이터를 저장하고 관리한다. 여기서는 `SQLException` **`체크 예외`**를 던진다.
-- `NetworkClient` 는 외부 네트워크에 접속해서 어떤 기능을 처리하는 객체이다. 여기서는 `ConnectException` **`체크 예외`**를 던진다.
+- `리포지토리` 는 DB에 접근해서 데이터를 저장하고 관리한다. 여기서는 `SQLException` **`체크 예외`** 를 던진다.
+- `NetworkClient` 는 외부 네트워크에 접속해서 어떤 기능을 처리하는 객체이다. 여기서는 `ConnectException` **`체크 예외`** 를 던진다.
 - `서비스` 는 `리포지토리` 와 `NetworkClient` 를 둘 다 호출한다.
     - 따라서 두 곳에서 올라오는 체크 예외인 `SQLException` 과 `ConnectException` 을 처리해야 한다.
     - 그런데 서비스는 이 둘을 처리할 방법을 모른다. `ConnectException` 처럼 연결이 실패하거나, `SQLException` 처럼 데이터베이스에서 발생하는 문제처럼 심각한 문제들은 대부분
