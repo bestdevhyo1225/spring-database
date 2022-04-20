@@ -391,3 +391,21 @@ public interface PlatformTransactionManager extends TransactionManager {
 ### 프로그래밍 방식의 트랜잭션 관리(Programmatic transaction management)
 
 - 트랜잭션 매니저 또는 트랜잭션 템플릿 등을 사용해서 트랜잭션 관련 코드를 직접 작성하는 것을 프로그래밍 방식의 트랜잭션 관리라 한다.
+
+## :round_pushpin: Spring Boot의 자동 리소스 등록
+
+### DataSource - 자동 등록
+
+- Spring Boot는  `DataSource` 를 자동으로 등록한다.
+- 자동으로 등록되는 Spring Bean 이름 -> `dataSource`
+- 참고로 개발자가 직접 `DataSource` 를 Bean으로 등록하면, Spring Boot는 `DataSource` 를 자동으로 등록하지 않는다.
+
+### TransactionManager - 자동 등록
+
+- Spring Boot는 적절한 트랜잭션 매니저(`PlatformTransactionManager`)를 자동으로 Spring Bean에 등록한다.
+- 자동으로 등록되는 Spring Bean 이름 -> `transactionManager`
+- 참고로 개발자가 직접 `TransactionManager` 를 Bean으로 등록하면, Spring Boot는 `TransactionManager` 를 자동으로 등록하지 않는다.
+
+어떤 트랜잭션 매니저를 선택할지는 현재 등록된 라이브러리를 보고 판단하는데, JDBC를 기술을 사용하면 `DataSourceTransactionManager` 를 Bean으로 등록하고, JPA를 사용하면
+`JpaTransactionManager` 를 Bean으로 등록한다. `둘 다 사용하는 경우` 에는 `JpaTransactionManager` 를 등록한다. 참고로 `JpaTransactionManager`
+는 `DataSourceTransactionManager` 가 제공하는 기능도 대부분 지원한다.
