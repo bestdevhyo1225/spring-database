@@ -627,3 +627,38 @@ public class JdbcTemplate {
     void execute(String sql) throws DataAccessException;
 }
 ```
+
+## :round_pushpin: 예외 포함과 스택 트레이스
+
+예외를 전환할 때는 꼭! 기존 예외를 포함해야 한다. 그렇지 않으면, 스택 트레이스를 확인할 때, 심각한 문제가 발생한다.
+
+### 기존 예외를 포함하지 않는 경우
+
+```java
+public class Repository {
+    public void call() {
+        try {
+            runSQL();
+        } catch (SQLException e) {
+            throw new RuntimeSQLException(); //기존 예외(e) 제외
+        }
+    }
+
+    public void runSQL() throws SQLException {
+        throw new SQLException("ex");
+    }
+}
+```
+```
+[Test worker] INFO hello.jdbc.exception.basic.UncheckedAppTest - ex
+  hello.jdbc.exception.basic.UncheckedAppTest$RuntimeSQLException: null
+    at
+  hello.jdbc.exception.basic.UncheckedAppTest$Repository.call(UncheckedAppTest.ja
+  va:61)
+    at
+  hello.jdbc.exception.basic.UncheckedAppTest$Service.logic(UncheckedAppTest.java
+  :45)
+```
+
+예외를 포함하지 않아서 기존에 발생한 `java.sql.SQLException` 과 `스택 트레이스` 를 확인할 수 없다. 변환한 `RuntimeSQLException` 부터 예외를 확인할 수 있다. 만약 실제
+DB에 연동했다면 DB에서 발생한 예외를 확인할 수 없는 심각한 문제가 발생한다. **`예외를 전환할 때는 꼭! 기존 예외를 포함하자`**
