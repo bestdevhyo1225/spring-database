@@ -184,7 +184,7 @@ public interface DataSource {
 
 ```sql
 set
-autocommit true; -- 자동 커밋 모드 설정
+    autocommit true; -- 자동 커밋 모드 설정
 insert into member(member_id, money)
 values ('data1', 10000); -- 개별적으로 쿼리가 실행되고, 커밋 됨 (트랜잭션 1)
 insert into member(member_id, money)
@@ -197,7 +197,7 @@ values ('data2', 10000); -- 개별적으로 쿼리가 실행되고, 커밋 됨 (
 
 ```sql
 set
-autocommit false; -- 수동 커밋 모드 설정
+    autocommit false; -- 수동 커밋 모드 설정
 insert into member(member_id, money)
 values ('data1', 10000); -- 트랜잭션 1에서 처리됨
 insert into member(member_id, money)
@@ -303,7 +303,7 @@ package org.springframework.transaction;
 
 public interface PlatformTransactionManager extends TransactionManager {
     TransactionStatus getTransaction(@Nullable TransactionDefinition definition)
-            throws TransactionException;
+        throws TransactionException;
 
     void commit(TransactionStatus status) throws TransactionException;
 
@@ -369,7 +369,7 @@ public interface PlatformTransactionManager extends TransactionManager {
 10. 트랜잭션을 종료하려면 동기화된 커넥션이 필요하다. 트랜잭션 동기화 매니저를 통해 동기화된 커넥션을 획득한다.
 11. 획득한 커넥션을 통해 데이터베이스에 트랜잭션을 커밋하거나 롤백한다.
 12. 전체 리소스를 정리한다.
-    - 트랜잭션 동기화 매니저를 정리한다. `ThreadLocal은 사용후 꼭 정리해야 한다.` 
+    - 트랜잭션 동기화 매니저를 정리한다. `ThreadLocal은 사용후 꼭 정리해야 한다.`
     - `con.setAutoCommit(true)` 로 되돌린다. 커넥션 풀을 고려해야 한다.
     - `con.close()` 를 호출해셔 커넥션을 종료한다. 커넥션 풀을 사용하는 경우 `con.close()` 를 호출하면 커넥션 풀에 반환된다.
 
@@ -380,3 +380,14 @@ public interface PlatformTransactionManager extends TransactionManager {
     - 기술 변경시 의존관계 주입만 `DataSourceTransactionManager` 에서 `JpaTransactionManager` 로 변경해주면 된다.
     - `java.sql.SQLException` 이 아직 남아있지만 이 부분은 뒤에 예외 문제에서 해결하자.
 - 트랜잭션 동기화 매니저 덕분에 커넥션을 파라미터로 넘기지 않아도 된다.
+
+## :round_pushpin: 선언전 트랜잭션 관리 vs 프로그래밍 방식 트랜잭션 관리
+
+### 선언적 트랜잭션 관리(Declarative Transaction Management)
+
+- `@Transactional` 애노테이션 하나만 선언해서 매우 편리하게 트랜잭션을 적용하는 것을 선언적 트랜잭션 관리라 한다.
+- 선언적 트랜잭션 관리는 과거 XML에 설정하기도 했다. 이름 그대로 해당 로직에 트랜잭션을 적용하겠다 라고 어딘가에 선언하기만 하면 트랜잭션이 적용되는 방식이다.
+
+### 프로그래밍 방식의 트랜잭션 관리(Programmatic transaction management)
+
+- 트랜잭션 매니저 또는 트랜잭션 템플릿 등을 사용해서 트랜잭션 관련 코드를 직접 작성하는 것을 프로그래밍 방식의 트랜잭션 관리라 한다.
