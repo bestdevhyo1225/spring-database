@@ -515,7 +515,7 @@ public interface PlatformTransactionManager extends TransactionManager {
 - `서비스` 는 `SQLException` 과 `ConnectException` 를 처리할 수 없으므로 둘 다 밖으로 던진다.
     - 체크 예외이기 때문에 던질 경우 다음과 같이 선언해야 한다.
     - **`method() throws SQLException, ConnectException`**
-- 컨트롤러도 두 예외를 처리할 방법이 없다.
+- `컨트롤러` 도 두 예외를 처리할 방법이 없다.
     - 다음을 선언해서 예외를 밖으로 던진다.
     - **`method() throws SQLException, ConnectException`**
 - 웹 애플리케이션이라면 서블릿의 오류 페이지나, 또는 스프링 MVC가 제공하는 `ControllerAdvice` 에서 이런 예외를 공통으로 처리한다.
