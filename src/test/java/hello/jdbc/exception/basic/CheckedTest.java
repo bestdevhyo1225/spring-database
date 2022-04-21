@@ -18,7 +18,7 @@ public class CheckedTest {
     void checkedThrow() {
         Service service = new Service();
         assertThatThrownBy(service::callThrow)
-            .isInstanceOf(MyCheckedException.class);
+                .isInstanceOf(MyCheckedException.class);
     }
 
     static class MyCheckedException extends Exception {
