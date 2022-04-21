@@ -1,7 +1,12 @@
 package hello.jdbc.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepositoryV3;
+import java.sql.SQLException;
+import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,12 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Slf4j
 @SpringBootTest
@@ -33,6 +32,7 @@ class MemberServiceV3_4Test {
 
     @TestConfiguration
     static class TestConfig {
+
         @Bean
         MemberRepositoryV3 memberRepositoryV3(DataSource dataSource) {
             return new MemberRepositoryV3(dataSource);
@@ -82,8 +82,10 @@ class MemberServiceV3_4Test {
         memberRepository.save(memberEx);
 
         // when
-        assertThatThrownBy(() -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(), 2_000))
-                .isInstanceOf(IllegalStateException.class);
+        assertThatThrownBy(
+            () -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(),
+                2_000))
+            .isInstanceOf(IllegalStateException.class);
 
         // then
         Member findMemberA = memberRepository.findById(memberA.getMemberId());

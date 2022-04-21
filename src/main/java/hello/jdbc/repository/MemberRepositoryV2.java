@@ -1,16 +1,15 @@
 package hello.jdbc.repository;
 
 import hello.jdbc.domain.Member;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.support.JdbcUtils;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.NoSuchElementException;
+import javax.sql.DataSource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.support.JdbcUtils;
 
 @Slf4j
 public class MemberRepositoryV2 {

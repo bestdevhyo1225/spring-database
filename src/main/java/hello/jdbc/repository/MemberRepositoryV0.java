@@ -2,14 +2,13 @@ package hello.jdbc.repository;
 
 import hello.jdbc.connection.DBConnectionUtil;
 import hello.jdbc.domain.Member;
-import lombok.extern.slf4j.Slf4j;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.NoSuchElementException;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MemberRepositoryV0 {

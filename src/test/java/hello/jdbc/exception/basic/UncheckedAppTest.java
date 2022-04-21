@@ -1,11 +1,10 @@
 package hello.jdbc.exception.basic;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.sql.SQLException;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 
 @Slf4j
 public class UncheckedAppTest {
@@ -27,6 +26,7 @@ public class UncheckedAppTest {
     }
 
     static class Controller {
+
         Service service = new Service();
 
         public void request() {
@@ -35,6 +35,7 @@ public class UncheckedAppTest {
     }
 
     static class Service {
+
         Repository repository = new Repository();
         NetworkClient networkClient = new NetworkClient();
 
@@ -45,12 +46,14 @@ public class UncheckedAppTest {
     }
 
     static class NetworkClient {
+
         public void call() {
             throw new RuntimeConnectException("연결 실패");
         }
     }
 
     static class Repository {
+
         public void call() {
             try {
                 runSQL();
@@ -65,12 +68,14 @@ public class UncheckedAppTest {
     }
 
     static class RuntimeConnectException extends RuntimeException {
+
         public RuntimeConnectException(String message) {
             super(message);
         }
     }
 
     static class RuntimeSQLException extends RuntimeException {
+
         public RuntimeSQLException(Throwable cause) {
             super(cause);
         }

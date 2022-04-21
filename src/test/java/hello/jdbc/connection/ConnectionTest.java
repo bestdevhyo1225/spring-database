@@ -1,18 +1,17 @@
 package hello.jdbc.connection;
 
-import com.zaxxer.hikari.HikariDataSource;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import static hello.jdbc.connection.ConnectionConst.PASSWORD;
 import static hello.jdbc.connection.ConnectionConst.URL;
 import static hello.jdbc.connection.ConnectionConst.USERNAME;
+
+import com.zaxxer.hikari.HikariDataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.sql.DataSource;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Slf4j
 public class ConnectionTest {

@@ -1,20 +1,19 @@
 package hello.jdbc.service;
 
-import hello.jdbc.domain.Member;
-import hello.jdbc.repository.MemberRepositoryV1;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
-import java.sql.SQLException;
-
 import static hello.jdbc.connection.ConnectionConst.PASSWORD;
 import static hello.jdbc.connection.ConnectionConst.URL;
 import static hello.jdbc.connection.ConnectionConst.USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import hello.jdbc.domain.Member;
+import hello.jdbc.repository.MemberRepositoryV1;
+import java.sql.SQLException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 class MemberServiceV1Test {
 
@@ -68,8 +67,10 @@ class MemberServiceV1Test {
         memberRepository.save(memberEx);
 
         // when
-        assertThatThrownBy(() -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(), 2_000))
-                .isInstanceOf(IllegalStateException.class);
+        assertThatThrownBy(
+            () -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(),
+                2_000))
+            .isInstanceOf(IllegalStateException.class);
 
         // then
         Member findMemberA = memberRepository.findById(memberA.getMemberId());

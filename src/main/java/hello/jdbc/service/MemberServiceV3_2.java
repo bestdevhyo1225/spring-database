@@ -2,11 +2,10 @@ package hello.jdbc.service;
 
 import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepositoryV3;
+import java.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
-
-import java.sql.SQLException;
 
 @Slf4j
 public class MemberServiceV3_2 {
@@ -14,7 +13,8 @@ public class MemberServiceV3_2 {
     private final TransactionTemplate txTemplate;
     private final MemberRepositoryV3 memberRepository;
 
-    public MemberServiceV3_2(PlatformTransactionManager transactionManager, MemberRepositoryV3 memberRepository) {
+    public MemberServiceV3_2(PlatformTransactionManager transactionManager,
+        MemberRepositoryV3 memberRepository) {
         this.txTemplate = new TransactionTemplate(transactionManager);
         this.memberRepository = memberRepository;
     }

@@ -1,9 +1,9 @@
 package hello.jdbc.exception.basic;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Slf4j
 public class UncheckedTest {
@@ -21,12 +21,14 @@ public class UncheckedTest {
     }
 
     static class MyUncheckedException extends RuntimeException {
+
         public MyUncheckedException(String message) {
             super(message);
         }
     }
 
     static class Service {
+
         Repository repository = new Repository();
 
         public void callCatch() {
@@ -43,6 +45,7 @@ public class UncheckedTest {
     }
 
     static class Repository {
+
         public void call() {
             throw new MyUncheckedException("ex");
         }

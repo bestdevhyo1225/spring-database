@@ -2,10 +2,9 @@ package hello.jdbc.service;
 
 import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepositoryV3;
+import java.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.SQLException;
 
 @Slf4j
 public class MemberServiceV3_3 {

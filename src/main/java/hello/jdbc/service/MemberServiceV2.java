@@ -2,12 +2,11 @@ package hello.jdbc.service;
 
 import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepositoryV2;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,7 +30,8 @@ public class MemberServiceV2 {
         }
     }
 
-    private void bizLogic(Connection conn, String fromId, String toId, int money) throws SQLException {
+    private void bizLogic(Connection conn, String fromId, String toId, int money)
+        throws SQLException {
         Member fromMember = memberRepository.findById(conn, fromId);
         Member toMember = memberRepository.findById(conn, toId);
 

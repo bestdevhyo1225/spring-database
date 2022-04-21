@@ -1,7 +1,14 @@
 package hello.jdbc.service;
 
+import static hello.jdbc.connection.ConnectionConst.PASSWORD;
+import static hello.jdbc.connection.ConnectionConst.URL;
+import static hello.jdbc.connection.ConnectionConst.USERNAME;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepositoryV3;
+import java.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,14 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
-
-import java.sql.SQLException;
-
-import static hello.jdbc.connection.ConnectionConst.PASSWORD;
-import static hello.jdbc.connection.ConnectionConst.URL;
-import static hello.jdbc.connection.ConnectionConst.USERNAME;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Slf4j
 class MemberServiceV3_2Test {
@@ -33,7 +32,8 @@ class MemberServiceV3_2Test {
     void beforeEach() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
         memberRepository = new MemberRepositoryV3(dataSource);
-        PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        PlatformTransactionManager transactionManager = new DataSourceTransactionManager(
+            dataSource);
         memberService = new MemberServiceV3_2(transactionManager, memberRepository);
     }
 
@@ -75,8 +75,10 @@ class MemberServiceV3_2Test {
         memberRepository.save(memberEx);
 
         // when
-        assertThatThrownBy(() -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(), 2_000))
-                .isInstanceOf(IllegalStateException.class);
+        assertThatThrownBy(
+            () -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(),
+                2_000))
+            .isInstanceOf(IllegalStateException.class);
 
         // then
         Member findMemberA = memberRepository.findById(memberA.getMemberId());
