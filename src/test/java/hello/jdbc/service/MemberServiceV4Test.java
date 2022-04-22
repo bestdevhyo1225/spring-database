@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepository;
-import hello.jdbc.repository.MemberRepositoryV4_1;
+import hello.jdbc.repository.MemberRepositoryV4_2;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -35,7 +35,8 @@ class MemberServiceV4Test {
 
         @Bean
         MemberRepository memberRepository(DataSource dataSource) {
-            return new MemberRepositoryV4_1(dataSource);
+//            return new MemberRepositoryV4_1(dataSource);
+            return new MemberRepositoryV4_2(dataSource);
         }
 
         @Bean
@@ -83,8 +84,8 @@ class MemberServiceV4Test {
 
         // when
         assertThatThrownBy(
-            () -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(),
-                2_000)).isInstanceOf(IllegalStateException.class);
+            () -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(), 2_000)).isInstanceOf(
+            IllegalStateException.class);
 
         // then
         Member findMemberA = memberRepository.findById(memberA.getMemberId());
