@@ -194,8 +194,7 @@ public interface DataSource {
 ### 자동 커밋
 
 ```sql
-set
-autocommit true; -- 자동 커밋 모드 설정
+set autocommit true; -- 자동 커밋 모드 설정
 insert into member(member_id, money)
 values ('data1', 10000); -- 개별적으로 쿼리가 실행되고, 커밋 됨 (트랜잭션 1)
 insert into member(member_id, money)
@@ -208,8 +207,7 @@ values ('data2', 10000); -- 개별적으로 쿼리가 실행되고, 커밋 됨 (
 ### 수동 커밋
 
 ```sql
-set
-autocommit false; -- 수동 커밋 모드 설정
+set autocommit false; -- 수동 커밋 모드 설정
 insert into member(member_id, money)
 values ('data1', 10000); -- 트랜잭션 1에서 처리됨
 insert into member(member_id, money)
